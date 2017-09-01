@@ -1,7 +1,20 @@
 <?php
-
+    ob_start();
     error_reporting(0);
     require_once 'function/function.php';
+
+    $last_time = selectPastTime();
+
+    $last_time = $last_time[0]['date_saved'];
+
+    $now = time();
+
+    $diff =  $now - $last_time;
+
+    // If time > 30mins
+    if ($diff > 1800) {
+      redirect('process.php');
+    }
 
  ?>
 

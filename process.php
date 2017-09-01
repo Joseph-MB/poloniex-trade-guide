@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     /**
     **  Algorithm for this page
     **  Delete records in previous table
@@ -13,6 +14,9 @@
 
     // Lets Delete all records in the previous table
     deletePreviousRecords();
+
+    // Reset table ID
+    ResetTableID ();
 
     // Lets fetch records from current so we can move it to the previous table
     $records = fetchRecordsFromCurrent ();
@@ -108,9 +112,10 @@
 
                     }
 
-                    $update_current_table = updateCurrentTable ($coin_name, $currency, $trade_sell, $trade_buy, $now);
-
                 }
+
+                $update_current_table = updateCurrentTable ($coin_name, $currency, $trade_sell, $trade_buy, $now);
+                $update_current_buy = updateCurrentBuyInPreviousTable ($trade_buy, $currency);
 
             }
 
@@ -123,6 +128,8 @@
       echo "string";
 
     }
+
+
 
     redirect('index.php');
 
