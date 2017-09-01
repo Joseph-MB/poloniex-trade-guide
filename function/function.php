@@ -4,7 +4,7 @@
     function fetchRecords () {
         $dsn = 'mysql:host=localhost;dbname=coins';
         $pdo = new PDO($dsn, 'root', '');
-        $query = $pdo->prepare('SELECT * FROM previous');
+        $query = $pdo->prepare('SELECT * FROM previous ORDER BY buy DESC');
         // $query = $pdo->prepare('SELECT * FROM previous ORDER BY buy DESC');
         if ($query->execute()) {
           $records = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -16,7 +16,7 @@
     function fetchRecordsFromCurrent () {
         $dsn = 'mysql:host=localhost;dbname=coins';
         $pdo = new PDO($dsn, 'root', '');
-        $query = $pdo->prepare('SELECT * FROM current');
+        $query = $pdo->prepare('SELECT * FROM current ORDER BY buy DESC');
         if ($query->execute()) {
           $records = $query->fetchAll(PDO::FETCH_ASSOC);
           return $records;
@@ -83,15 +83,7 @@
 
     }
 
-    /**
-     * redirects to desired page
-     */
-    function redirect($location)
-    {
 
-        header("Location: " . $location);
-
-    }
 
 
  ?>
