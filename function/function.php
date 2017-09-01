@@ -24,7 +24,7 @@
     }
 
     // This function inserts data into the current table after processing poloniex API
-        function updateTable ($coin, $currencypair, $buy, $sell, $date_saved ) {
+        function updateCurrentTable ($coin, $currencypair, $buy, $sell, $date_saved ) {
           $dsn = 'mysql:host=localhost;dbname=coins';
           $pdo = new PDO($dsn, 'root', '');
         $query = $pdo->prepare('INSERT into current (coin , currencypair, buy, sell, date_saved) values (:coin , :currencypair, :buy, :sell, :date_saved) ');
@@ -44,7 +44,7 @@
         function updatePreviousTable ($coin, $currencypair, $buy, $sell, $date_saved ) {
           $dsn = 'mysql:host=localhost;dbname=coins';
           $pdo = new PDO($dsn, 'root', '');
-          $query = $pdo->prepare('INSERT into current (coin , currencypair, buy, sell, date_saved) values (:coin , :currencypair, :buy, :sell, :date_saved) ');
+          $query = $pdo->prepare('INSERT into previous (coin , currencypair, buy, sell, date_saved) values (:coin , :currencypair, :buy, :sell, :date_saved) ');
           $query->bindParam(':coin' , $coin);
           $query->bindParam(':currencypair' , $currencypair);
           $query->bindParam(':buy' , $buy);
@@ -80,6 +80,16 @@
       }else {
         return false;
       }
+
+    }
+
+    /**
+     * redirects to desired page
+     */
+    function redirect($location)
+    {
+
+        header("Location: " . $location);
 
     }
 

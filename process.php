@@ -17,15 +17,13 @@
     // Lets fetch records from current so we can move it to the previous table
     $records = fetchRecordsFromCurrent ();
 
-    // Get the current time
-    $date_saved = time();
-
     foreach ($records as $key => $record) {
 
         $coin = $record['coin'];
         $currencypair = $record['currencypair'];
         $buy = $record['buy'];
         $sell = $record['sell'];
+        $date_saved = $record['date_saved'];
 
         // We can now move the records from current table to previous table to enable us delete all record in current table
         $update = updatePreviousTable ($coin, $currencypair, $buy, $sell, $date_saved );
@@ -46,6 +44,9 @@
 
             // Convert object to array
             $coins = json_decode(json_encode($coins) , TRUE);
+
+            //Get current time in UNIX timestamp
+            $now = time();
 
             // Loop through coins array to get details for each coin
             foreach ($coins as $key => $coin) {
@@ -69,12 +70,6 @@
 
                     //Get coin name
                     $coin_name = $coin['name'];
-
-                    //Get current time in UNIX timestamp
-                    $now = time();
-
-                    //Go 24hrs back
-                    $then = $now - 86400;
 
                     /**
                     **  Call the poloniex API to get all trade history for the currency pair
@@ -108,9 +103,9 @@
 
                         }
 
-                        $date_saved = time();
+                        $update = updateCurrentTable ($coin_name, $currency, $trade_sell, $trade_buy, $now );
 
-                        $update = updateTable ($coin_name, $currency, $trade_sell, $trade_buy, $date_saved );
+                        redirect('index.php');
 
                     }
 
